@@ -21,13 +21,14 @@ from sklearn.metrics import plot_confusion_matrix
 
 def preprocess(file):
     data = pd.read_csv(file)
+
     data["Decision"]=data["Decision"].replace({"VERY_FRESH":0,"EARLY_SPOILED":1,"HALF_SPOILED":2,"FULL_SPOILED":3})
     X = np.array(data[["S1", "S2", "S3", "S4", "S5", "S6"]])
     Y = np.array(data["Decision"])
     
     return X,Y
 
-def train(clf, X, y, name, log ):
+def train(clf, X, y, name, log,csvFileName ):
     
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
     print("Traning the model")
@@ -40,15 +41,15 @@ def train(clf, X, y, name, log ):
     if not os.path.isdir("images/confusion"):
         os.mkdir("images/confusion")
     plt.title(name)    
-    plt.savefig(os.getcwd()+"/images/confusion/"+name.replace(" ","_")+".png")
+    plt.savefig(os.getcwd()+"/images/confusion/"+csvFileName+"/"+name.replace(" ","_")+".png")
     
 def main():
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument('--file', help='location of csv file location')
     parser.add_argument('--log', help='log file',default="log.txt")
     args = parser.parse_args()
-    if (not os.path.isdir("images")):
-        os.mkdir("images")
+    if (not os.path.isdir("images/confusion/"+args.file)):
+        os.mkdir("images/confusion/"+args.file)
     X, y = preprocess(args.file)
     classifiers = [
     KNeighborsClassifier(3),
@@ -68,7 +69,7 @@ def main():
     for i in range(len(classifiers)):
         print("Classifier", names[i])
         try:
-            train(classifiers[i], X, y, names[i], log)
+            train(classifiers[i], X, y, names[i], log,args.file)
         except Exception as e:
             print("Error in ",names[i],e)
 

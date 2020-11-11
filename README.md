@@ -1,7 +1,7 @@
 # project-
 to install all the dependencies 
 ```
-pip -r install requirements.txt
+pip install -r requirements.txt
 ```
 
 rest of the code can be used by simple running the file [classifier.py](https://github.com/vigneshmj1997/project-/blob/master/classifier.py)
