@@ -41,10 +41,9 @@ def train(clf, X_train, y_train, X_test, y_test, name, log):
     plot_confusion_matrix(clf, X_test, y_test)
     if not os.path.isdir("images/confusion"):
         os.mkdir("images/confusion")
-    plt.title(name)
-    plt.savefig(os.getcwd() + "/images/confusion/" + name.replace(" ", "_") + ".png")
-
-
+    plt.title(name)    
+    plt.savefig(os.getcwd()+"/images/confusion/"+csvFileName+"/"+name.replace(" ","_")+".png")
+    
 def main():
     parser = argparse.ArgumentParser(description="Process some integers.")
     parser.add_argument("--train", help="location of train csv file location")
